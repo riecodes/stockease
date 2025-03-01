@@ -1,0 +1,34 @@
+body {
+    background-color: #f8f9fa;
+    display: flex;
+    overflow: hidden;    
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;    
+    z-index: 2;
+}
+
+#content {
+    margin-left: 250px;
+    flex: 1;
+    overflow-y: auto;
+    height: 100vh;
+    transition: margin 0.3s ease;
+    z-index: 1;    
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    #content {
+        margin-left: 0;
+        width: 100%;        
+    }
+
+    #sidebar.active + #content {
+        margin-left: 250px;
+        overflow-y: auto;
+    }
+}

@@ -1,0 +1,107 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('../img/cvsu-naic.jpg') no-repeat center center/cover;
+    position: relative; /* Required for the overlay */
+}
+
+/* Add a pseudo-element for the overlay */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Light black overlay (adjust opacity as needed) */
+    z-index: 1; /* Ensure the overlay is above the background image */
+}
+
+/* Ensure content is above the overlay */
+body > * {
+    position: relative;
+    z-index: 2; /* Place content above the overlay */
+}
+
+.register-container {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    overflow: hidden;
+    width: 80%;
+    max-width: 900px;
+    scale: 0.8;
+}
+
+.form-section {
+    padding: 3rem;
+    width: 60%;
+}
+
+.image-section {
+    width: 40%;
+    background: url('../img/cvsu-naic.jpg') no-repeat center center/cover;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+
+.form-header {
+    margin-bottom: 1.5rem;
+}
+
+.form-header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.form-header p {
+    color: #6c757d;
+}
+
+.form-header img {
+    width: 100px;
+}
+
+.form-control {
+    border-radius: 8px;
+}
+
+.btn-primary {
+    background-color: #007f00;
+    border-color: #007f00;
+    border-radius: 8px;
+    font-weight: 500;
+    width: 100%;
+}
+
+.social-login {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-login img {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.login-link {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.contact-email {
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: #6c757d;
+    text-align: center;
+}

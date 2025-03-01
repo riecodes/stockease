@@ -1,0 +1,105 @@
+body {
+    background-color: #f8f9fa;
+    padding: 15px;
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+.cvsu-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    margin-bottom: 15px;    
+}
+
+.floating-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    
+}
+
+.floating-info h5 {
+    margin-top: 8px;
+}
+
+.cvsu-card .card-title {
+    color: #007f00;
+    font-weight: 600;
+    font-size: 1.1rem;
+    
+}
+
+.cvsu-card .card-text {
+    color: #2c3e50;
+    font-size: 1.3rem;
+}
+
+.display-4 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #007f00;
+}
+
+canvas {
+    max-height: 250px;
+    min-height: 200px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .row {
+        margin-left: -8px;
+        margin-right: -8px;
+    }
+    
+    .col-md-4, .col-md-6 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+    
+    .cvsu-card {
+        margin-bottom: 10px;
+        padding: 15px;        
+    }
+    
+    .cvsu-card .card-title {
+        font-size: 1rem;
+    }
+    
+    .cvsu-card .card-text {
+        font-size: 1.2rem;
+    }
+    
+    .display-4 {
+        font-size: 1.75rem;
+    }
+    
+    canvas {
+        max-height: 200px;
+        min-height: 180px;
+    }
+    
+    .card-body {
+        padding: 1rem;        
+    }
+    
+}
+
+@media (max-width: 480px) {
+    .display-4 {
+        font-size: 1.5rem;
+    }
+    
+    .cvsu-card .card-text {
+        font-size: 1.1rem;
+    }
+    
+    canvas {
+        max-height: 180px;
+        min-height: 150px;
+    }
+}

@@ -1,0 +1,77 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.cvsu-container {
+    padding: 2rem;
+}
+
+.cvsu-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.cvsu-header h2 {
+    color: #007f00; /* CVSU Green */
+    font-weight: 600;
+}
+
+.cvsu-header p {
+    color: #6c757d;
+    font-size: 0.95rem;
+}
+
+.report-filters .input-group {
+    max-width: 400px;
+}
+
+.cvsu-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 1.5rem;
+}
+
+.cvsu-card .card-title {
+    color: #007f00;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.table th {
+    background-color: #007f00;
+    color: white;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 127, 0, 0.05);
+}
+
+canvas {
+    max-height: 400px;
+    min-height: 300px;
+}
+
+@media (max-width: 768px) {
+    .cvsu-header {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+    
+    .report-filters {
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    .report-filters .input-group {
+        max-width: 100%;
+    }
+    
+    canvas {
+        min-height: 250px;
+    }
+    
+    .table-responsive {
+        overflow-x: auto;
+    }
+}
