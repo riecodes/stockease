@@ -2,33 +2,53 @@ body {
     background-color: #f8f9fa;
     display: flex;
     overflow: hidden;    
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
 }
 
 .sidebar {
+    width: 250px;
+    min-width: 250px;
+    max-width: 250px;
+    flex-shrink: 0;
     position: fixed;
-    top: 0;
-    left: 0;    
-    z-index: 2;
+    height: 100vh;
+    z-index: 1000;
 }
 
 #content {
     margin-left: 250px;
     flex: 1;
-    overflow-y: auto;
+    overflow-x: auto;
+    min-width: 0;
     height: 100vh;
     transition: margin 0.3s ease;
-    z-index: 1;    
+    z-index: 1;
+    padding-top: 20px;
+    padding-left: 2.5%;
+    box-sizing: border-box;
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: -250px;
+        transition: left 0.3s ease;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
     #content {
         margin-left: 0;
-        width: 100%;        
+        width: 100%;
+        padding: 15px;
     }
 
     #sidebar.active + #content {
         margin-left: 250px;
-        overflow-y: auto;
     }
 }

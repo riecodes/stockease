@@ -27,7 +27,7 @@ $currentSection = isset($_GET['section']) ? $_GET['section'] : 'home';
         <?php include('sidebar.php'); ?>
     </div>
     
-    <div id="content" class="p-4">
+    <div id="content">
         <?php
         // Include the specific content based on the selected section
         

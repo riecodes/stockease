@@ -1,6 +1,5 @@
 body {
     background-color: #f8f9fa;    
-    display: flex;
 }
 
 .cvsu-container {
@@ -116,11 +115,15 @@ table tbody tr td{
 
 /* Modal Styles */
 .modal {
-    z-index: 1050 !important;
+    z-index: 9999 !important;
 }
 
 .modal-backdrop {
-    z-index: 1040 !important;
+    display: none !important;
+}
+
+.modal-dialog {
+    z-index: 10000 !important;
 }
 
 /* Table Styles */
@@ -128,7 +131,7 @@ table tbody tr td{
     margin: 0;
     padding: 0;
     border-radius: 8px;
-    overflow: hidden;
+
 }
 
 .table {
@@ -165,6 +168,38 @@ table tbody tr td{
     vertical-align: middle;
     color: #333;
     border-bottom: 1px solid #e9ecef;
+}
+
+/* Add description column truncation */
+.table tbody td:nth-child(4) {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Add tooltip on hover for truncated text */
+.table tbody td:nth-child(4):hover {
+    position: relative;
+}
+
+.table tbody td:nth-child(4):hover::after {
+    content: attr(title);
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background: #333;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 4px;
+    z-index: 1000;
+    white-space: normal;
+    max-width: 300px;
+    display: none;
+}
+
+.table tbody td:nth-child(4):hover::after {
+    display: block;
 }
 
 .table tbody tr:last-child td {

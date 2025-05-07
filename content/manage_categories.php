@@ -76,6 +76,9 @@ try {
                                         <td><?= $category['item_count'] ?></td>
                                         <td>
                                             <div class="d-flex gap-2">
+                                                <button type="button" class="btn btn-compact btn-info" data-bs-toggle="modal" data-bs-target="#viewModal<?= $category['category_id'] ?>">
+                                                    <span class="material-icons">visibility</span>
+                                                </button>
                                                 <button type="button" class="btn btn-compact btn-primary" data-bs-toggle="modal" data-bs-target="#editModal<?= $category['category_id'] ?>">
                                                     <span class="material-icons">edit</span>
                                                 </button>
@@ -85,6 +88,44 @@ try {
                                             </div>
                                         </td>
                                     </tr>
+
+                                    <!-- View Modal -->
+                                    <div class="modal fade" id="viewModal<?= $category['category_id'] ?>" tabindex="-1" aria-labelledby="viewModalLabel<?= $category['category_id'] ?>" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="viewModalLabel<?= $category['category_id'] ?>">
+                                                        <span class="material-icons">visibility</span>View Category Details
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="mb-4">
+                                                        <label class="form-label fw-bold">Category Name</label>
+                                                        <p class="mb-0"><?= htmlspecialchars($category['name']) ?></p>
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label class="form-label fw-bold">Description</label>
+                                                        <p class="mb-0"><?= nl2br(htmlspecialchars($category['description'] ?? 'No description')) ?></p>
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label class="form-label fw-bold">Items Count</label>
+                                                        <p class="mb-0">
+                                                            <span class="badge bg-info btn btn-primary">
+                                                                <span class="material-icons">inventory_2</span>
+                                                                <?= $category['item_count'] ?> item(s)
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-compact btn-secondary" data-bs-dismiss="modal">
+                                                        <span class="material-icons">close</span>Close
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <!-- Edit Modal -->
                                     <div class="modal fade" id="editModal<?= $category['category_id'] ?>" tabindex="-1" aria-labelledby="editModalLabel<?= $category['category_id'] ?>" aria-hidden="true">
@@ -96,9 +137,10 @@ try {
                                                     </h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
-                                                <form action="process/edit_category.php" method="POST">
+                                                <form action="process/edit_category_process.php" method="POST">
+                                                    <input type="hidden" name="form_token" value="<?= $_SESSION['form_token'] ?>">
+                                                    <input type="hidden" name="category_id" value="<?= $category['category_id'] ?>">
                                                     <div class="modal-body">
-                                                        <input type="hidden" name="category_id" value="<?= $category['category_id'] ?>">
                                                         <div class="mb-4">
                                                             <label for="name<?= $category['category_id'] ?>" class="form-label">Category Name <span class="required">*</span></label>
                                                             <input type="text" class="form-control" id="name<?= $category['category_id'] ?>" name="name" value="<?= htmlspecialchars($category['name']) ?>" required>
@@ -106,6 +148,9 @@ try {
                                                         <div class="mb-4">
                                                             <label for="description<?= $category['category_id'] ?>" class="form-label">Description</label>
                                                             <textarea class="form-control" id="description<?= $category['category_id'] ?>" name="description" rows="3"><?= htmlspecialchars($category['description'] ?? '') ?></textarea>
+                                                            <div class="textarea-counter">
+                                                                <span id="charCount<?= $category['category_id'] ?>"><?= strlen($category['description'] ?? '') ?></span>/200
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -144,7 +189,8 @@ try {
                                                     <button type="button" class="btn btn-compact btn-secondary" data-bs-dismiss="modal">
                                                         <span class="material-icons">close</span>Cancel
                                                     </button>
-                                                    <form action="process/delete_category.php" method="POST" class="d-inline">
+                                                    <form action="process/delete_category_process.php" method="POST" class="d-inline">
+                                                        <input type="hidden" name="form_token" value="<?= $_SESSION['form_token'] ?>">
                                                         <input type="hidden" name="category_id" value="<?= $category['category_id'] ?>">
                                                         <button type="submit" class="btn btn-compact btn-danger">
                                                             <span class="material-icons">delete</span>Delete
@@ -213,24 +259,3 @@ try {
         });
     }
 </script>
-
-<style>
-/* Ensure modals appear on top of everything */
-.modals-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 9999;
-}
-
-.modals-container .modal {
-    pointer-events: auto;
-}
-
-.modal-backdrop {
-    z-index: 9998;
-}
-</style>

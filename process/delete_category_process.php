@@ -2,18 +2,25 @@
 session_start();
 require_once '../include/db.php';
 
-if (!isset($_SESSION['admin_id'])) {
+if (!isset($_SESSION['admin_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: ../../index.php");
     exit();
 }
 
-if (!isset($_GET['id'])) {
-    $_SESSION['error'] = "Invalid request!";
+// Verify CSRF token
+if (!isset($_POST['form_token']) || $_POST['form_token'] !== $_SESSION['form_token']) {
+    $_SESSION['error'] = "Invalid form submission!";
     header("Location: ../dashboard.php?section=manage_categories");
     exit();
 }
 
-$categoryId = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
+$categoryId = filter_input(INPUT_POST, 'category_id', FILTER_SANITIZE_NUMBER_INT);
+
+if (!$categoryId) {
+    $_SESSION['error'] = "Invalid category ID!";
+    header("Location: ../dashboard.php?section=manage_categories");
+    exit();
+}
 
 try {
     // Delete all items that belong to this category
