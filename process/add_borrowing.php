@@ -143,4 +143,3 @@ try {
     header("Location: ../dashboard.php?section=add_borrowing");
     exit();
 }
-?>
