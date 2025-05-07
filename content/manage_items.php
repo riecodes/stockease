@@ -1,12 +1,13 @@
 <?php
-// Fetch all items with category names
+require_once 'include/db.php'; // Adjust the path as needed
+// Fetch all items with their category names
 $items = [];
 try {
     $stmt = $conn->prepare("
         SELECT i.*, c.name AS category_name 
         FROM items i
         LEFT JOIN categories c ON i.category_id = c.category_id
-        ORDER BY i.created_at DESC
+        ORDER BY i.name
     ");
     $stmt->execute();
     $items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -15,10 +16,19 @@ try {
     error_log("Error fetching items: " . $e->getMessage());
     $_SESSION['error'] = "Error loading items. Please try again.";
 }
+
+// Fetch categories for the edit modal dropdown
+$stmt = $conn->prepare("SELECT category_id, name FROM categories ORDER BY name");
+$stmt->execute();
+$categories = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
 ?>
+
 <head>
     <link rel="stylesheet" href="css/manage.css">
 </head>
+
+<!-- Main Content -->
 <div class="cvsu-container">
     <div class="d-flex justify-content-between align-items-center mb-4 cvsu-header">
         <h2><i class="fas fa-boxes me-2"></i>Manage Items</h2>
@@ -50,7 +60,7 @@ try {
                     <th>Item Name</th>
                     <th>Category</th>
                     <th>Quantity</th>
-                    <th>Last Updated</th>
+                    <th>Description</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -69,24 +79,86 @@ try {
                             <td><?= htmlspecialchars($item['name']) ?></td>
                             <td><?= htmlspecialchars($item['category_name'] ?? 'Uncategorized') ?></td>
                             <td><?= $item['quantity'] ?></td>
-                            <td><?= date('M d, Y h:i A', strtotime($item['updated_at'])) ?></td>
+                            <td><?= htmlspecialchars($item['description'] ?? 'No description') ?></td>
                             <td>
-                                <button class="btn btn-sm btn-outline-primary view-item"
-                                    data-id="<?= $item['item_id'] ?>"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#itemModal">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <a href="dashboard.php?section=edit_item&id=<?= $item['item_id'] ?>"
-                                    class="btn btn-sm btn-outline-success">
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal<?= $item['item_id'] ?>">
                                     <i class="fas fa-edit"></i>
-                                </a>
-                                <button class="btn btn-sm btn-outline-danger delete-item"
-                                    data-id="<?= $item['item_id'] ?>">
-                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $item['item_id'] ?>">
+                                    <i class="fas fa-trash"></i>
                                 </button>
                             </td>
                         </tr>
+
+                        <!-- Edit Modal -->
+                        <div class="modal fade" id="editModal<?= $item['item_id'] ?>" tabindex="-1" aria-labelledby="editModalLabel<?= $item['item_id'] ?>" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editModalLabel<?= $item['item_id'] ?>">Edit Item</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <form action="process/edit_item.php" method="POST">
+                                        <div class="modal-body">
+                                            <input type="hidden" name="item_id" value="<?= $item['item_id'] ?>">
+                                            <div class="mb-3">
+                                                <label for="name<?= $item['item_id'] ?>" class="form-label">Item Name</label>
+                                                <input type="text" class="form-control" id="name<?= $item['item_id'] ?>" name="name" value="<?= htmlspecialchars($item['name']) ?>" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="category<?= $item['item_id'] ?>" class="form-label">Category</label>
+                                                <select class="form-select" id="category<?= $item['item_id'] ?>" name="category_id" required>
+                                                    <option value="">Select Category</option>
+                                                    <?php foreach ($categories as $category): ?>
+                                                        <option value="<?= $category['category_id'] ?>" <?= $category['category_id'] == $item['category_id'] ? 'selected' : '' ?>>
+                                                            <?= htmlspecialchars($category['name']) ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="quantity<?= $item['item_id'] ?>" class="form-label">Quantity</label>
+                                                <input type="number" class="form-control" id="quantity<?= $item['item_id'] ?>" name="quantity" value="<?= $item['quantity'] ?>" min="0" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="description<?= $item['item_id'] ?>" class="form-label">Description</label>
+                                                <textarea class="form-control" id="description<?= $item['item_id'] ?>" name="description" rows="3"><?= htmlspecialchars($item['description'] ?? '') ?></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Delete Modal -->
+                        <div class="modal fade" id="deleteModal<?= $item['item_id'] ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?= $item['item_id'] ?>" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel<?= $item['item_id'] ?>">Delete Item</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to delete the item "<?= htmlspecialchars($item['name']) ?>"?</p>
+                                        <div class="alert alert-warning">
+                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                            This item currently has <?= $item['quantity'] ?> units in stock. Deleting this item will permanently remove all stock information.
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <form action="process/delete_item.php" method="POST" class="d-inline">
+                                            <input type="hidden" name="item_id" value="<?= $item['item_id'] ?>">
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </tbody>
@@ -94,26 +166,23 @@ try {
     </div>
 </div>
 
-<script>
-    // View Item Details
-    document.querySelectorAll('.view-item').forEach(button => {
-        button.addEventListener('click', function() {
-            const itemId = this.dataset.id;
-            fetch(`process/manage_item.php?id=${itemId}`)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('itemDetails').innerHTML = data;
-                });
-        });
-    });
+<style>
+/* Ensure modals appear on top of everything */
+.modals-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
 
-    // Delete Item
-    document.querySelectorAll('.delete-item').forEach(button => {
-        button.addEventListener('click', function() {
-            const itemId = this.dataset.id;
-            if (confirm('Are you sure you want to delete this item?')) {
-                window.location.href = `process/delete_item.php?id=${itemId}`;
-            }
-        });
-    });
-</script>
+.modals-container .modal {
+    pointer-events: auto;
+}
+
+.modal-backdrop {
+    z-index: 9998;
+}
+</style>

@@ -6,6 +6,7 @@ $totalCategories = 0;
 $totalBorrowings = 0;
 $itemsByCategory = [];
 $borrowingsOverTime = [];
+$reportData = [];
 
 try {
     // Total Items
@@ -48,6 +49,38 @@ try {
     $stmt->execute();
     $borrowingsOverTime = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     $stmt->close();
+
+    // Item Availability Report
+    $stmt = $conn->prepare("
+        SELECT i.name AS item_name, 
+               c.name AS category,
+               i.quantity AS current_stock,
+               COUNT(b.borrowing_id) AS times_borrowed
+        FROM items i
+        LEFT JOIN categories c ON i.category_id = c.category_id
+        LEFT JOIN borrowings b ON i.item_id = b.item_id
+        GROUP BY i.item_id
+        ORDER BY times_borrowed DESC
+    ");
+    $stmt->execute();
+    $reportData['item_availability'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+
+    // Overdue Items Report
+    $stmt = $conn->prepare("
+        SELECT b.borrowing_id,
+               b.borrower_name,
+               i.name AS item_name,
+               b.expected_return_date,
+               DATEDIFF(CURDATE(), b.expected_return_date) AS days_overdue
+        FROM borrowings b
+        LEFT JOIN items i ON b.item_id = i.item_id
+        WHERE b.status = 'borrowed'
+          AND b.expected_return_date < CURDATE()
+    ");
+    $stmt->execute();
+    $reportData['overdue_items'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
 } catch (Exception $e) {
     error_log("Error fetching data: " . $e->getMessage());
     $_SESSION['error'] = "Error loading dashboard data. Please try again.";
@@ -55,12 +88,24 @@ try {
 ?>
 
 <head>
-    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
     <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center mb-4 cvsu-header">
+            <h2><i class="fas fa-home me-2"></i>Dashboard</h2>
+        </div>
+
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span class="required">* </span><?= $_SESSION['error'] ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php unset($_SESSION['error']); ?>
+        <?php endif; ?>
+
         <!-- Floating Information Rectangles -->
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-md-4">
                 <div class="card cvsu-card">
                     <div class="card-body floating-info">
@@ -88,7 +133,7 @@ try {
         </div>
 
         <!-- Graphs Section -->
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-md-6">
                 <div class="card cvsu-card">
                     <div class="card-body">
@@ -103,6 +148,64 @@ try {
                         <h5 class="card-title"><i class="fas fa-chart-line me-2"></i>Borrowings Over Time</h5>
                         <canvas id="borrowingsOverTimeChart"></canvas>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Item Availability Table -->
+        <div class="card cvsu-card mb-4">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-box-open me-2"></i>Item Availability</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Category</th>
+                                <th>Current Stock</th>
+                                <th>Times Borrowed</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($reportData['item_availability'] as $item): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($item['item_name']) ?></td>
+                                    <td><?= htmlspecialchars($item['category']) ?></td>
+                                    <td><?= $item['current_stock'] ?></td>
+                                    <td><?= $item['times_borrowed'] ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overdue Items Report -->
+        <div class="card cvsu-card">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-exclamation-triangle me-2"></i>Overdue Items</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Borrower</th>
+                                <th>Expected Return</th>
+                                <th>Days Overdue</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($reportData['overdue_items'] as $item): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($item['item_name']) ?></td>
+                                    <td><?= htmlspecialchars($item['borrower_name']) ?></td>
+                                    <td><?= date('M d, Y', strtotime($item['expected_return_date'])) ?></td>
+                                    <td class="text-danger"><?= $item['days_overdue'] ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

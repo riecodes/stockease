@@ -1,110 +1,139 @@
 /* Sidebar Base Styles */
 #sidebar {
-    width: 250px;
-    height: 100vh;
-    background-color: #343a40;
-    color: #fff;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-
-    transition: transform 0.3s ease;
+    min-width: 280px;
+    max-width: 280px;
+    min-height: 100vh;
+    transition: all 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 #sidebar.active {
-    transform: translateX(-250px);
+    margin-left: -280px;
 }
 
 /* Sidebar Header */
-#sidebar .sidebar-header {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-
+.sidebar-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
 }
 
-#sidebar .sidebar-header img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    transition: transform 0.3s ease;
+.sidebar-logo {
+    width: auto;
+    height: 40px;
+    object-fit: contain;
 }
 
-#sidebar .sidebar-header img:hover {
-    transform: scale(1.1);
-}
-
-#sidebar .sidebar-header h3 {
-    color: white;
+.sidebar-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
     margin: 0;
-    font-size: 1.25rem;
-    transition: color 0.3s ease;
 }
 
-/* Sidebar Links */
-#sidebar ul {
-    padding: 0;
+/* Navigation Links */
+#sidebar .components {
+    padding: 1rem;
+    flex: 1;
 }
 
-#sidebar ul li a {
-    padding: 5px;
+#sidebar .nav-item {
+    margin-bottom: 0.25rem;
+}
+
+#sidebar .nav-link {
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    padding: 0.75rem 1rem !important;
     display: flex;
-    transition: all 0.3s ease;
-    gap: 10px;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.8) !important;
 }
 
-#sidebar ul li a:hover {
-    background-color: #495057;
-    transform: scale(1.05);
+#sidebar .nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(4px);
+    color: #fff !important;
 }
 
-#sidebar ul li.active>a {
-    background-color: #007f00;
+#sidebar .nav-item.active .nav-link {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff !important;
+}
+
+#sidebar .nav-link i {
+    width: 20px;
+    text-align: center;
+    font-weight: normal !important;
+    margin-right: 0.75rem;
+    font-size: 1rem;
 }
 
 /* Dropdown Submenu */
-.submenu {
+#sidebar .submenu {
     max-height: 0;
     overflow: hidden;
+    transition: all 0.3s ease;
     opacity: 0;
-    transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out;
+    margin: 0.25rem 0;
+    padding-left: 0;
 }
 
-.submenu.show {
+#sidebar .submenu.show {
     max-height: 500px;
     opacity: 1;
 }
 
-.dropdown-toggle::after {
-    font-weight: 900;
-    display: inline-block;
-    margin-left: auto;
-    transition: transform 0.3s ease-in-out;
+#sidebar .submenu .nav-link {
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem !important;
+    margin: 0.125rem 0;
 }
 
-.dropdown-toggle[aria-expanded="true"]::after {
-    transform: rotate(90deg);
+#sidebar .dropdown-toggle {
+    position: relative;
+}
+
+#sidebar .dropdown-toggle::after {
+    content: '';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgba(255, 255, 255, 0.8);
+    transition: transform 0.3s ease;
+}
+
+#sidebar .dropdown-toggle[aria-expanded="true"]::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: auto;
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     #sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        transform: translateX(-250px);
+        margin-left: -280px;
     }
-
+    
     #sidebar.active {
-        transform: translateX(0);
-    }
-
-    /* Assuming the toggle button is placed directly after #sidebar */
-    #sidebar.active + #sidebarCollapse {
-        transform: translateX(250px); /* Moves it to the right of a 250px sidebar, plus a margin */
-        transition: transform 0.3s ease;
+        margin-left: 0;
     }
     
-    
+    #sidebarCollapse {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
 }
 
 /* Sidebar Toggle Button */
@@ -123,9 +152,26 @@
 
 #sidebarCollapse:hover {
     background-color: #005600;
-    transition: all 0.3s ease;
 }
 
 #sidebarCollapse.active {
     transform: translateX(260px);
+}
+
+/* Custom Scrollbar */
+#sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+#sidebar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+#sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
 }

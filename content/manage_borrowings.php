@@ -14,6 +14,12 @@ try {
     error_log("Error fetching borrowings: " . $e->getMessage());
     $_SESSION['error'] = "Error loading borrowings. Please try again.";
 }
+
+// Fetch items for the edit modal dropdown
+$stmt = $conn->prepare("SELECT item_id, name FROM items WHERE quantity > 0 ORDER BY name");
+$stmt->execute();
+$items = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
 ?>
 
 <head>
@@ -89,24 +95,97 @@ try {
                                         data-bs-target="#borrowingModal">
                                         <i class="fas fa-eye"></i>
                                     </button>
-                                    <a href="dashboard.php?section=edit_borrowing&id=<?= $borrow['borrowing_id'] ?>"
-                                        class="btn btn-sm btn-outline-success">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <button class="btn btn-sm btn-outline-danger delete-borrowing"
-                                        data-id="<?= $borrow['borrowing_id'] ?>">
-                                        <i class="fas fa-trash-alt"></i>
+                                    <?php if ($borrow['status'] !== 'returned'): ?>
+                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal<?= $borrow['borrowing_id'] ?>">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    <?php endif; ?>
+                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $borrow['borrowing_id'] ?>">
+                                        <i class="fas fa-trash"></i>
                                     </button>
                                 </td>
                             </tr>
+
+                            <!-- Edit Modal -->
+                            <div class="modal fade" id="editModal<?= $borrow['borrowing_id'] ?>" tabindex="-1" aria-labelledby="editModalLabel<?= $borrow['borrowing_id'] ?>" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel<?= $borrow['borrowing_id'] ?>">Edit Borrowing</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="actions/borrowing_actions.php" method="POST">
+                                            <div class="modal-body">
+                                                <input type="hidden" name="action" value="edit">
+                                                <input type="hidden" name="borrowing_id" value="<?= $borrow['borrowing_id'] ?>">
+                                                <div class="mb-3">
+                                                    <label for="item<?= $borrow['borrowing_id'] ?>" class="form-label">Item</label>
+                                                    <select class="form-select" id="item<?= $borrow['borrowing_id'] ?>" name="item_id" required>
+                                                        <?php foreach ($items as $item): ?>
+                                                            <option value="<?= $item['item_id'] ?>" <?= $item['item_id'] == $borrow['item_id'] ? 'selected' : '' ?>>
+                                                                <?= htmlspecialchars($item['name']) ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="borrower<?= $borrow['borrowing_id'] ?>" class="form-label">Borrower Name</label>
+                                                    <input type="text" class="form-control" id="borrower<?= $borrow['borrowing_id'] ?>" name="borrower_name" value="<?= htmlspecialchars($borrow['borrower_name']) ?>" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="quantity<?= $borrow['borrowing_id'] ?>" class="form-label">Quantity</label>
+                                                    <input type="number" class="form-control" id="quantity<?= $borrow['borrowing_id'] ?>" name="quantity" value="<?= $borrow['quantity'] ?>" min="1" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="borrowDate<?= $borrow['borrowing_id'] ?>" class="form-label">Borrow Date</label>
+                                                    <input type="date" class="form-control" id="borrowDate<?= $borrow['borrowing_id'] ?>" name="borrow_date" value="<?= date('Y-m-d', strtotime($borrow['borrow_date'])) ?>" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="returnDate<?= $borrow['borrowing_id'] ?>" class="form-label">Expected Return Date</label>
+                                                    <input type="date" class="form-control" id="returnDate<?= $borrow['borrowing_id'] ?>" name="expected_return_date" value="<?= date('Y-m-d', strtotime($borrow['expected_return_date'])) ?>" required>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Delete Modal -->
+                            <div class="modal fade" id="deleteModal<?= $borrow['borrowing_id'] ?>" tabindex="-1" aria-labelledby="deleteModalLabel<?= $borrow['borrowing_id'] ?>" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel<?= $borrow['borrowing_id'] ?>">Delete Borrowing</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to delete this borrowing record?</p>
+                                            <div class="alert alert-warning">
+                                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                                This action cannot be undone. All borrowing history will be permanently deleted.
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <form action="actions/borrowing_actions.php" method="POST" class="d-inline">
+                                                <input type="hidden" name="action" value="delete">
+                                                <input type="hidden" name="borrowing_id" value="<?= $borrow['borrowing_id'] ?>">
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </tbody>
             </table>
         </div>
     </div>
-
-
 
     <script>
         // View Borrowing Details
@@ -118,16 +197,6 @@ try {
                     .then(data => {
                         document.getElementById('borrowingDetails').innerHTML = data;
                     });
-            });
-        });
-
-        // Delete Borrowing
-        document.querySelectorAll('.delete-borrowing').forEach(button => {
-            button.addEventListener('click', function() {
-                const borrowingId = this.dataset.id;
-                if (confirm('Are you sure you want to delete this borrowing record?')) {
-                    window.location.href = `process/delete_borrowing.php?id=${borrowingId}`;
-                }
             });
         });
     </script>

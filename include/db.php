@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";  
-$dbname = "cvsu";
+$dbname = "stockease_db";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

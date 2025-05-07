@@ -1,3 +1,13 @@
+<?php
+// Generate CSRF token if not set
+if (!isset($_SESSION['form_token'])) {
+    $_SESSION['form_token'] = bin2hex(random_bytes(32));
+}
+
+// Retrieve old input values
+$old = isset($_SESSION['old']) ? $_SESSION['old'] : [];
+?>
+
 <head>
     <title>Add Category - CVSU</title>
     <link rel="stylesheet" href="css/add.css">
@@ -7,9 +17,11 @@
 
     <!-- Main Container -->
     <div class="container-fluid cvsu-container">
-        <div class="cvsu-header">
-            <h2><i class="fas fa-tag me-2"></i>Add New Category</h2>
-            <p>Create a new inventory category to organize your items</p>
+        <div class="d-flex justify-content-between align-items-center mb-4 cvsu-header">
+            <h2><i class="fas fa-tags me-2"></i>Add New Category</h2>
+            <a href="dashboard.php?section=manage_categories" class="btn cvsu-btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Back to Categories
+            </a>
         </div>
 
         <?php if (isset($_SESSION['error'])): ?>
@@ -28,36 +40,35 @@
             <?php unset($_SESSION['success']); ?>
         <?php endif; ?>
 
-        <form action="process/add_category.php" method="POST">
-            <div class="mb-4">
-                <label for="categoryName" class="form-label">Category Name <span class="required">*<span></label>
-                <input type="text" name="categoryName" id="categoryName"
-                    class="form-control"
-                    placeholder="e.g., Laboratory Equipment"
-                    required>
-            </div>
+        <div class="card cvsu-card">
+            <div class="card-body">
+                <form action="process/add_category.php" method="POST">
+                    <input type="hidden" name="form_token" value="<?= $_SESSION['form_token'] ?>">
+                    
+                    <div class="mb-4">
+                        <label for="name" class="form-label">Category Name <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="name" name="name" required 
+                               value="<?= isset($old['name']) ? htmlspecialchars($old['name']) : '' ?>">
+                    </div>
 
-            <div class="mb-4">
-                <label for="categoryDesc" class="form-label">Description</label>
-                <textarea name="categoryDesc" id="categoryDesc"
-                    class="form-control"
-                    rows="4"
-                    placeholder="Describe the category purpose or specifications"
-                    maxlength="200"></textarea>
-                <div class="textarea-counter">
-                    <span id="charCount">0</span>/200
-                </div>
-            </div>
+                    <div class="mb-4">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"><?= isset($old['description']) ? htmlspecialchars($old['description']) : '' ?></textarea>
+                    </div>
 
-            <button type="submit" class="btn cvsu-btn-primary">
-                Create Category <i class="fas fa-plus-circle"></i>
-            </button>
-        </form>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn cvsu-btn-primary">
+                            <i class="fas fa-save me-2"></i>Save Category
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- Character Counter Script -->
     <script>
-        const textarea = document.getElementById('categoryDesc');
+        const textarea = document.getElementById('description');
         const charCount = document.getElementById('charCount');
 
         textarea.addEventListener('input', () => {

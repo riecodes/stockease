@@ -11,6 +11,14 @@ try {
     error_log("Error fetching categories: " . $e->getMessage());
     $_SESSION['error'] = "Error loading categories. Please try again.";
 }
+
+// Generate CSRF token if not set
+if (!isset($_SESSION['form_token'])) {
+    $_SESSION['form_token'] = bin2hex(random_bytes(32));
+}
+
+// Retrieve old input values
+$old = isset($_SESSION['old']) ? $_SESSION['old'] : [];
 ?>
 
 <!DOCTYPE html>
@@ -25,10 +33,12 @@ try {
 
 <body>
     <!-- Main Container -->
-    <div class="container-fluid cvsu-container">
-        <div class="cvsu-header">
+    <div class="cvsu-container">
+        <div class="d-flex justify-content-between align-items-center mb-4 cvsu-header">
             <h2><i class="fas fa-box me-2"></i>Add New Item</h2>
-            <p>Add a new item to the inventory system</p>
+            <a href="dashboard.php?section=manage_items" class="btn cvsu-btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Back to Items
+            </a>
         </div>
 
         <!-- Display Success/Error Messages -->
@@ -48,55 +58,50 @@ try {
             <?php unset($_SESSION['success']); ?>
         <?php endif; ?>
 
-        <form action="process/add_item.php" method="POST">
-            <!-- Item Name -->
-            <div class="mb-4">
-                <label for="itemName" class="form-label">Item Name <span class="required">*<span></label>
-                <input type="text" name="itemName" id="itemName" class="form-control" placeholder="e.g., Spoon" required>
-            </div>
+        <div class="card cvsu-card">
+            <div class="card-body">
+                <form action="process/add_item.php" method="POST">
+                    <input type="hidden" name="form_token" value="<?= $_SESSION['form_token'] ?>">
+                    
+                    <div class="mb-4">
+                        <label for="name" class="form-label">Item Name <span class="required">*</span></label>
+                        <input type="text" class="form-control" id="name" name="name" required 
+                               value="<?= isset($old['name']) ? htmlspecialchars($old['name']) : '' ?>">
+                    </div>
 
-            <!-- Category Dropdown -->
-            <div class="mb-4">
-                <label for="category" class="form-label">Category <span class="required">*<span></label>
-                <select name="category" id="category" class="form-control" required>
-                    <option value="">Select a category</option>
-                    <?php foreach ($categories as $category): ?>
-                        <option value="<?= $category['category_id'] ?>"><?= htmlspecialchars($category['name']) ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+                    <div class="mb-4">
+                        <label for="category_id" class="form-label">Category <span class="required">*</span></label>
+                        <select class="form-control" id="category_id" name="category_id" required>
+                            <option value="">Select a category</option>
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?= $category['category_id'] ?>" 
+                                    <?= (isset($old['category_id']) && $old['category_id'] == $category['category_id']) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($category['name']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
 
-            <!-- Quantity -->
-            <div class="mb-4">
-                <label for="quantity" class="form-label">Quantity <span class="required">*<span></label>
-                <input type="number" name="quantity" id="quantity" class="form-control" min="1" value="1" required>
-            </div>
+                    <div class="mb-4">
+                        <label for="quantity" class="form-label">Quantity <span class="required">*</span></label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" min="0" required 
+                               value="<?= isset($old['quantity']) ? htmlspecialchars($old['quantity']) : '0' ?>">
+                    </div>
 
-            <!-- Description -->
-            <div class="mb-4">
-                <label for="description" class="form-label">Description</label>
-                <textarea name="description" id="description" class="form-control" rows="4" placeholder="Describe the item (e.g., silver, long, stainless)" maxlength="200"></textarea>
-                <div class="textarea-counter">
-                    <span id="charCount">0</span>/200
-                </div>
-            </div>
+                    <div class="mb-4">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"><?= isset($old['description']) ? htmlspecialchars($old['description']) : '' ?></textarea>
+                    </div>
 
-            <!-- Submit Button -->
-            <button type="submit" class="btn cvsu-btn-primary">
-                Add Item <i class="fas fa-plus-circle"></i>
-            </button>
-        </form>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn cvsu-btn-primary">
+                            <i class="fas fa-save me-2"></i>Save Item
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <!-- Character Counter Script -->
-    <script>
-        const textarea = document.getElementById('description');
-        const charCount = document.getElementById('charCount');
-
-        textarea.addEventListener('input', () => {
-            charCount.textContent = textarea.value.length;
-        });
-    </script>
 </body>
 
 </html>

@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Prepare SQL statement to prevent SQL injection
-    $stmt = $conn->prepare("SELECT admin_id, username, password FROM admins WHERE username = ?");
+    $stmt = $conn->prepare("SELECT admin_id, username, password_hash FROM admins WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();

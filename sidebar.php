@@ -2,18 +2,20 @@
 <link rel="stylesheet" href="css/sidebar.css">
 
 <nav id="sidebar" class="bg-dark text-white">
-    <div class="sidebar-header p-3">
-        <a href="dashboard.php?section=home">
-            <img src="img/cvsu.png" alt="Logo">
+    <div class="sidebar-header p-4 d-flex align-items-center gap-3">
+        <a href="dashboard.php?section=home" class="d-flex align-items-center gap-3 text-decoration-none">
+            <img src="img/cvsu.png" alt="Logo" class="sidebar-logo">
+            <h3 class="mb-0 text-white">StockEase</h3>
         </a>
-        <h3>StockEase</h3>
     </div>
 
-    <ul class="list-unstyled components p-2">
+    <div class="sidebar-divider"></div>
+
+    <ul class="list-unstyled components p-3">
         <!-- Home -->
-        <li class="<?= ($currentSection == 'home') ? 'active' : '' ?>">
-            <a href="dashboard.php?section=home" class="p-2 d-block text-white text-decoration-none">
-                <i class="fas fa-home me-2"></i> Home
+        <li class="nav-item mb-2 <?= ($currentSection == 'home') ? 'active' : '' ?>">
+            <a href="dashboard.php?section=home" class="nav-link p-3 d-flex align-items-center text-white text-decoration-none rounded">
+                <i class="fas fa-home me-3"></i> Home
             </a>
         </li>
 
@@ -22,29 +24,31 @@
         $inventorySections = ['add_category', 'add_item', 'manage_categories', 'manage_items'];
         $inventoryActive = in_array($currentSection, $inventorySections);
         ?>
-        <li class="<?= $inventoryActive ? 'active' : '' ?>">
-            <a href="#" class="dropdown-toggle p-2 d-block text-white text-decoration-none" aria-expanded="<?= $inventoryActive ? 'true' : 'false' ?>">
-                <i class="fas fa-boxes me-2"></i> Inventory
+        <li class="nav-item mb-2 <?= $inventoryActive ? 'active' : '' ?>">
+            <a href="#" class="nav-link p-3 d-flex align-items-center justify-content-between text-white text-decoration-none rounded dropdown-toggle" aria-expanded="<?= $inventoryActive ? 'true' : 'false' ?>">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-boxes me-3"></i> Inventory
+                </div>
             </a>
             <ul class="submenu list-unstyled <?= $inventoryActive ? 'show' : '' ?>">
-                <li class="<?= ($currentSection == 'add_category') ? 'active' : '' ?>">
-                    <a href="dashboard.php?section=add_category" class="ps-4 d-block text-white text-decoration-none">
-                        <i class="fas fa-plus me-2"></i> Add Category
+                <li class="nav-item mb-1 <?= ($currentSection == 'add_category') ? 'active' : '' ?>">
+                    <a href="dashboard.php?section=add_category" class="nav-link ps-4 py-2 d-flex align-items-center text-white text-decoration-none rounded">
+                        <i class="fas fa-plus me-3"></i> Add Category
                     </a>
                 </li>
-                <li class="<?= ($currentSection == 'manage_categories') ? 'active' : '' ?>">
-                    <a href="dashboard.php?section=manage_categories" class="ps-4 d-block text-white text-decoration-none">
-                        <i class="fas fa-list me-2"></i> Manage Categories
+                <li class="nav-item mb-1 <?= ($currentSection == 'manage_categories') ? 'active' : '' ?>">
+                    <a href="dashboard.php?section=manage_categories" class="nav-link ps-4 py-2 d-flex align-items-center text-white text-decoration-none rounded">
+                        <i class="fas fa-list me-3"></i> Manage Categories
                     </a>
                 </li>
-                <li class="<?= ($currentSection == 'add_item') ? 'active' : '' ?>">
-                    <a href="dashboard.php?section=add_item" class="ps-4 d-block text-white text-decoration-none">
-                        <i class="fas fa-plus me-2"></i> Add Item
+                <li class="nav-item mb-1 <?= ($currentSection == 'add_item') ? 'active' : '' ?>">
+                    <a href="dashboard.php?section=add_item" class="nav-link ps-4 py-2 d-flex align-items-center text-white text-decoration-none rounded">
+                        <i class="fas fa-plus me-3"></i> Add Item
                     </a>
                 </li>
-                <li class="<?= ($currentSection == 'manage_items') ? 'active' : '' ?>">
-                    <a href="dashboard.php?section=manage_items" class="ps-4 d-block text-white text-decoration-none">
-                        <i class="fas fa-list me-2"></i> Manage Items
+                <li class="nav-item mb-1 <?= ($currentSection == 'manage_items') ? 'active' : '' ?>">
+                    <a href="dashboard.php?section=manage_items" class="nav-link ps-4 py-2 d-flex align-items-center text-white text-decoration-none rounded">
+                        <i class="fas fa-list me-3"></i> Manage Items
                     </a>
                 </li>
             </ul>
@@ -55,63 +59,61 @@
         $borrowingSections = ['add_borrowing', 'manage_borrowings', 'manage_returns'];
         $borrowingActive = in_array($currentSection, $borrowingSections);
         ?>
-        <li class="<?= $borrowingActive ? 'active' : '' ?>">
-            <a href="#" class="dropdown-toggle p-2 d-block text-white text-decoration-none" aria-expanded="<?= $borrowingActive ? 'true' : 'false' ?>">
-                <i class="fas fa-hand-holding me-2"></i> Borrowings
+        <li class="nav-item mb-2 <?= $borrowingActive ? 'active' : '' ?>">
+            <a href="#" class="nav-link p-3 d-flex align-items-center justify-content-between text-white text-decoration-none rounded dropdown-toggle" aria-expanded="<?= $borrowingActive ? 'true' : 'false' ?>">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-hand-holding me-3"></i> Borrowings
+                </div>
             </a>
             <ul class="submenu list-unstyled <?= $borrowingActive ? 'show' : '' ?>">
-                <li class="<?= ($currentSection == 'add_borrowing') ? 'active' : '' ?>">
-                    <a href="dashboard.php?section=add_borrowing" class="ps-4 d-block text-white text-decoration-none">
-                        <i class="fas fa-plus me-2"></i> Add Borrowing
+                <li class="nav-item mb-1 <?= ($currentSection == 'add_borrowing') ? 'active' : '' ?>">
+                    <a href="dashboard.php?section=add_borrowing" class="nav-link ps-4 py-2 d-flex align-items-center text-white text-decoration-none rounded">
+                        <i class="fas fa-plus me-3"></i> Add Borrowing
                     </a>
                 </li>
-                <li class="<?= ($currentSection == 'manage_borrowings') ? 'active' : '' ?>">
-                    <a href="dashboard.php?section=manage_borrowings" class="ps-4 d-block text-white text-decoration-none">
-                        <i class="fas fa-list me-2"></i> Manage Borrowings
+                <li class="nav-item mb-1 <?= ($currentSection == 'manage_borrowings') ? 'active' : '' ?>">
+                    <a href="dashboard.php?section=manage_borrowings" class="nav-link ps-4 py-2 d-flex align-items-center text-white text-decoration-none rounded">
+                        <i class="fas fa-list me-3"></i> Manage Borrowings
                     </a>
                 </li>
-                <li class="<?= ($currentSection == 'manage_returns') ? 'active' : '' ?>">
-                    <a href="dashboard.php?section=manage_returns" class="ps-4 d-block text-white text-decoration-none">
-                        <i class="fas fa-hand-holding me-2"></i> Manage Returns
+                <li class="nav-item mb-1 <?= ($currentSection == 'manage_returns') ? 'active' : '' ?>">
+                    <a href="dashboard.php?section=manage_returns" class="nav-link ps-4 py-2 d-flex align-items-center text-white text-decoration-none rounded">
+                        <i class="fas fa-hand-holding me-3"></i> Manage Returns
                     </a>
                 </li>
             </ul>
         </li>
 
-        <!-- Reports -->
-        <li class="<?= ($currentSection == 'reports') ? 'active' : '' ?>">
-            <a href="dashboard.php?section=reports" class="p-2 d-block text-white text-decoration-none">
-                <i class="fas fa-chart-bar me-2"></i> Reports
-            </a>
-        </li>
-
         <!-- Profile -->
-        <li class="<?= ($currentSection == 'profile') ? 'active' : '' ?>">
-            <a href="dashboard.php?section=profile" class="p-2 d-block text-white text-decoration-none">
-                <i class="fas fa-user me-2"></i> Profile
-            </a>
-        </li>
-
-        <!-- Logout -->
-        <li>
-            <a href="#" class="text-white text-decoration-none p-2 d-block" 
-            data-bs-toggle="modal" 
-            data-bs-target="#logoutModal">
-                <i class="fas fa-sign-out-alt me-2"></i> Logout
+        <li class="nav-item mb-2 <?= ($currentSection == 'profile') ? 'active' : '' ?>">
+            <a href="dashboard.php?section=profile" class="nav-link p-3 d-flex align-items-center text-white text-decoration-none rounded">
+                <i class="fas fa-user me-3"></i> Profile
             </a>
         </li>
     </ul>
+
+    <!-- Logout at bottom -->
+    <div class="sidebar-footer">
+        <ul class="list-unstyled components p-3">
+            <li class="nav-item">
+                <a href="#" class="nav-link p-3 d-flex align-items-center text-white text-decoration-none rounded" 
+                   data-bs-toggle="modal" 
+                   data-bs-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt me-3"></i> Logout
+                </a>
+            </li>
+        </ul>
+    </div>
 </nav>
 
 <!-- Sidebar Toggle Button (for mobile) -->
-<button type="button" id="sidebarCollapse" class="btn btn-dark d-block d-md-none m-2">
+<button type="button" id="sidebarCollapse" class="btn btn-dark d-block d-md-none m-3 rounded-circle p-3">
     <i class="fas fa-bars"></i>
 </button>
 
 <!-- Sidebar Script for Toggle and Real-Time Caret Animation -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        
         const dropdownToggles = document.querySelectorAll(".dropdown-toggle");
         dropdownToggles.forEach(toggle => {
             toggle.addEventListener("click", function(e) {
@@ -136,7 +138,6 @@
             sidebar.classList.toggle("active");
         });
 
-    
         // Logout confirmation handler
         const logoutModal = document.getElementById('logoutModal');
         if(logoutModal) {
@@ -144,8 +145,5 @@
                 const trigger = event.relatedTarget;
             });
         }
-
-
     });
-    
 </script>
