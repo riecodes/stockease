@@ -18,12 +18,12 @@ try {
 ?>
 
 <head>
-    <link rel="stylesheet" href="css/manage.css">
+    <link rel="stylesheet" href="content/css/manage.css">
 </head>
 <body>
     <div class="cvsu-container">
         <div class="d-flex justify-content-between align-items-center mb-4 cvsu-header">
-            <h2><i class="fas fa-undo me-2"></i>Manage Returns</h2>
+            <h2><span class="material-icons me-2">assignment_return</span>Manage Returns</h2>
         </div>
 
         <!-- Display Success/Error Messages -->
@@ -61,7 +61,7 @@ try {
                         <!-- No records found -->
                         <tr>
                             <td colspan="7" class="text-center py-4">
-                                <i class="fas fa-exclamation-circle me-2"></i> No records found.
+                                <span class="material-icons me-2">report_problem</span> No records found.
                             </td>
                         </tr>
                     <?php else: ?>
@@ -79,11 +79,11 @@ try {
                                         data-id="<?= $borrow['borrowing_id'] ?>"
                                         data-bs-toggle="modal"
                                         data-bs-target="#borrowingModal">
-                                        <i class="fas fa-eye"></i>
+                                        <span class="material-icons">visibility</span>
                                     </button>
                                     <button class="btn btn-sm btn-outline-success mark-returned"
                                         data-id="<?= $borrow['borrowing_id'] ?>">
-                                        <i class="fas fa-check me-2"></i>Mark Returned
+                                        <span class="material-icons me-2">check_circle</span>Mark Returned
                                     </button>
                                 </td>
                             </tr>

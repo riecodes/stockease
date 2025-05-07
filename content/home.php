@@ -125,7 +125,7 @@ try {
             <div class="col-md-4">
                 <div class="card cvsu-card">
                     <div class="card-body floating-info">
-                        <h5 class="card-title"><i class="fas fa-hand-holding me-2"></i>Total Borrowings</h5>
+                        <h5 class="card-title"><i class="fas fa-handshake me-2"></i>Total Borrowings</h5>
                         <p class="card-text display-4"><?= $totalBorrowings ?></p>
                     </div>
                 </div>

@@ -15,10 +15,12 @@ $currentSection = isset($_GET['section']) ? $_GET['section'] : 'home';
 <!DOCTYPE html>
 <html lang="en">
 <head>    
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="css/general.css">
-    <link rel="stylesheet" href="css/dashboard.css">
     <?php include('include/link.php'); ?>
+    
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/buttons.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/general.css">
 </head>
 <body>
     <div class="sidebar">

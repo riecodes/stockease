@@ -27,7 +27,7 @@ $old = isset($_SESSION['old']) ? $_SESSION['old'] : [];
 
 <div class="cvsu-container">
     <div class="d-flex justify-content-between align-items-center mb-4 cvsu-header">
-        <h2><i class="fas fa-hand-holding me-2"></i>Add New Borrowing</h2>
+        <h2><i class="fas fa-handshake me-2"></i>Add New Borrowing</h2>
         <a href="dashboard.php?section=manage_borrowings" class="btn cvsu-btn-secondary">
             <i class="fas fa-arrow-left me-2"></i>Back to Borrowings
         </a>

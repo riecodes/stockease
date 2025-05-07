@@ -1,0 +1,97 @@
+body {
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+.cvsu-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.cvsu-header h2 {
+    color: #007f00;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.cvsu-header h2 .material-icons {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.cvsu-header p {
+    color: #6c757d;
+    font-size: 0.95rem;
+}
+
+.cvsu-card {
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    background: #fff;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto 1.5rem;
+}
+
+.cvsu-card:last-child {
+    margin-bottom: 0;
+}
+
+.cvsu-card .card-body {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.cvsu-card form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.cvsu-card .card-title {
+    color: #007f00;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cvsu-card .card-title .material-icons {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.alert {
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.material-icons {
+    margin-right: 0.5rem;
+}
+
+.required {
+    color: #dc3545;
+}

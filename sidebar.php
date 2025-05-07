@@ -15,7 +15,7 @@
         <!-- Home -->
         <li class="nav-item mb-2 <?= ($currentSection == 'home') ? 'active' : '' ?>">
             <a href="dashboard.php?section=home" class="nav-link p-3 d-flex align-items-center text-white text-decoration-none rounded">
-                <i class="fas fa-home me-3"></i> Home
+                <span class="material-icons me-3 text-white">home</span> <span class="text-white">Home</span>
             </a>
         </li>
 
@@ -27,28 +27,28 @@
         <li class="nav-item mb-2 <?= $inventoryActive ? 'active' : '' ?>">
             <a href="#" class="nav-link p-3 d-flex align-items-center justify-content-between text-white text-decoration-none rounded dropdown-toggle" aria-expanded="<?= $inventoryActive ? 'true' : 'false' ?>">
                 <div class="d-flex align-items-center">
-                    <i class="fas fa-boxes me-3"></i> Inventory
+                    <span class="material-icons me-3 text-white">inventory_2</span> <span class="text-white">Inventory</span>
                 </div>
             </a>
             <ul class="submenu list-unstyled <?= $inventoryActive ? 'show' : '' ?>">
                 <li class="nav-item mb-1 <?= ($currentSection == 'add_category') ? 'active' : '' ?>">
                     <a href="dashboard.php?section=add_category" class="nav-link ps-4 py-2 d-flex align-items-center text-white text-decoration-none rounded">
-                        <i class="fas fa-plus me-3"></i> Add Category
+                        <span class="material-icons me-3 text-white">add</span> <span class="text-white">Add Category</span>
                     </a>
                 </li>
                 <li class="nav-item mb-1 <?= ($currentSection == 'manage_categories') ? 'active' : '' ?>">
                     <a href="dashboard.php?section=manage_categories" class="nav-link ps-4 py-2 d-flex align-items-center text-white text-decoration-none rounded">
-                        <i class="fas fa-list me-3"></i> Manage Categories
+                        <span class="material-icons me-3 text-white">category</span> <span class="text-white">Manage Categories</span>
                     </a>
                 </li>
                 <li class="nav-item mb-1 <?= ($currentSection == 'add_item') ? 'active' : '' ?>">
                     <a href="dashboard.php?section=add_item" class="nav-link ps-4 py-2 d-flex align-items-center text-white text-decoration-none rounded">
-                        <i class="fas fa-plus me-3"></i> Add Item
+                        <span class="material-icons me-3 text-white">add</span> <span class="text-white">Add Item</span>
                     </a>
                 </li>
                 <li class="nav-item mb-1 <?= ($currentSection == 'manage_items') ? 'active' : '' ?>">
                     <a href="dashboard.php?section=manage_items" class="nav-link ps-4 py-2 d-flex align-items-center text-white text-decoration-none rounded">
-                        <i class="fas fa-list me-3"></i> Manage Items
+                        <span class="material-icons me-3 text-white">list</span> <span class="text-white">Manage Items</span>
                     </a>
                 </li>
             </ul>
@@ -62,23 +62,23 @@
         <li class="nav-item mb-2 <?= $borrowingActive ? 'active' : '' ?>">
             <a href="#" class="nav-link p-3 d-flex align-items-center justify-content-between text-white text-decoration-none rounded dropdown-toggle" aria-expanded="<?= $borrowingActive ? 'true' : 'false' ?>">
                 <div class="d-flex align-items-center">
-                    <i class="fas fa-hand-holding me-3"></i> Borrowings
+                    <span class="material-icons me-3 text-white">handshake</span> <span class="text-white">Borrowings</span>
                 </div>
             </a>
             <ul class="submenu list-unstyled <?= $borrowingActive ? 'show' : '' ?>">
                 <li class="nav-item mb-1 <?= ($currentSection == 'add_borrowing') ? 'active' : '' ?>">
                     <a href="dashboard.php?section=add_borrowing" class="nav-link ps-4 py-2 d-flex align-items-center text-white text-decoration-none rounded">
-                        <i class="fas fa-plus me-3"></i> Add Borrowing
+                        <span class="material-icons me-3 text-white">add</span> <span class="text-white">Add Borrowing</span>
                     </a>
                 </li>
                 <li class="nav-item mb-1 <?= ($currentSection == 'manage_borrowings') ? 'active' : '' ?>">
                     <a href="dashboard.php?section=manage_borrowings" class="nav-link ps-4 py-2 d-flex align-items-center text-white text-decoration-none rounded">
-                        <i class="fas fa-list me-3"></i> Manage Borrowings
+                        <span class="material-icons me-3 text-white">list</span> <span class="text-white">Manage Borrowings</span>
                     </a>
                 </li>
                 <li class="nav-item mb-1 <?= ($currentSection == 'manage_returns') ? 'active' : '' ?>">
                     <a href="dashboard.php?section=manage_returns" class="nav-link ps-4 py-2 d-flex align-items-center text-white text-decoration-none rounded">
-                        <i class="fas fa-hand-holding me-3"></i> Manage Returns
+                        <span class="material-icons me-3 text-white">assignment_return</span> <span class="text-white">Manage Returns</span>
                     </a>
                 </li>
             </ul>
@@ -87,7 +87,7 @@
         <!-- Profile -->
         <li class="nav-item mb-2 <?= ($currentSection == 'profile') ? 'active' : '' ?>">
             <a href="dashboard.php?section=profile" class="nav-link p-3 d-flex align-items-center text-white text-decoration-none rounded">
-                <i class="fas fa-user me-3"></i> Profile
+                <span class="material-icons me-3 text-white">person</span> <span class="text-white">Profile</span>
             </a>
         </li>
     </ul>
@@ -95,11 +95,9 @@
     <!-- Logout at bottom -->
     <div class="sidebar-footer">
         <ul class="list-unstyled components p-3">
-            <li class="nav-item">
-                <a href="#" class="nav-link p-3 d-flex align-items-center text-white text-decoration-none rounded" 
-                   data-bs-toggle="modal" 
-                   data-bs-target="#logoutModal">
-                    <i class="fas fa-sign-out-alt me-3"></i> Logout
+            <li class="nav-item mt-auto">
+                <a href="#" class="nav-link p-3 d-flex align-items-center text-white text-decoration-none rounded" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                    <span class="material-icons me-3 text-white">logout</span> <span class="text-white">Logout</span>
                 </a>
             </li>
         </ul>
@@ -108,7 +106,7 @@
 
 <!-- Sidebar Toggle Button (for mobile) -->
 <button type="button" id="sidebarCollapse" class="btn btn-dark d-block d-md-none m-3 rounded-circle p-3">
-    <i class="fas fa-bars"></i>
+    <span class="material-icons text-white">menu</span>
 </button>
 
 <!-- Sidebar Script for Toggle and Real-Time Caret Animation -->

@@ -8,20 +8,13 @@ if (!isset($_SESSION['form_token'])) {
 $old = isset($_SESSION['old']) ? $_SESSION['old'] : [];
 ?>
 
-<head>
-    <title>Add Category - CVSU</title>
-    <link rel="stylesheet" href="css/add.css">
-</head>
+<link rel="stylesheet" href="content/css/add.css">
 
 <body>
-
-    <!-- Main Container -->
-    <div class="container-fluid cvsu-container">
-        <div class="d-flex justify-content-between align-items-center mb-4 cvsu-header">
-            <h2><i class="fas fa-tags me-2"></i>Add New Category</h2>
-            <a href="dashboard.php?section=manage_categories" class="btn cvsu-btn-secondary">
-                <i class="fas fa-arrow-left me-2"></i>Back to Categories
-            </a>
+    <div class="container cvsu-container">
+        <div class="cvsu-header">
+            <h2><span class="material-icons">category</span>Add New Category</h2>
+            <p>Create a new category for inventory items</p>
         </div>
 
         <?php if (isset($_SESSION['error'])): ?>
@@ -40,28 +33,38 @@ $old = isset($_SESSION['old']) ? $_SESSION['old'] : [];
             <?php unset($_SESSION['success']); ?>
         <?php endif; ?>
 
-        <div class="card cvsu-card">
-            <div class="card-body">
-                <form action="process/add_category.php" method="POST">
-                    <input type="hidden" name="form_token" value="<?= $_SESSION['form_token'] ?>">
-                    
-                    <div class="mb-4">
-                        <label for="name" class="form-label">Category Name <span class="required">*</span></label>
-                        <input type="text" class="form-control" id="name" name="name" required 
-                               value="<?= isset($old['name']) ? htmlspecialchars($old['name']) : '' ?>">
-                    </div>
+        <div class="cvsu-content-container">
+            <div class="card cvsu-card">
+                <div class="card-body">
+                    <h5 class="card-title"><span class="material-icons">add_circle</span>Category Details</h5>
+                    <form action="process/add_category_process.php" method="POST">
+                        <input type="hidden" name="form_token" value="<?= $_SESSION['form_token'] ?>">
 
-                    <div class="mb-4">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="3"><?= isset($old['description']) ? htmlspecialchars($old['description']) : '' ?></textarea>
-                    </div>
+                        <div class="mb-4">
+                            <label for="name" class="form-label">Category Name <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="name" name="name" required
+                                value="<?= isset($old['name']) ? htmlspecialchars($old['name']) : '' ?>">
+                        </div>
 
-                    <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn cvsu-btn-primary">
-                            <i class="fas fa-save me-2"></i>Save Category
-                        </button>
-                    </div>
-                </form>
+                        <div class="mb-4">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description"
+                                rows="3"><?= isset($old['description']) ? htmlspecialchars($old['description']) : '' ?></textarea>
+                            <div class="textarea-counter">
+                                <span id="charCount">0</span>/200
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="dashboard.php?section=manage_categories" class="btn btn-compact btn-secondary">
+                                <span class="material-icons">arrow_back</span>Back
+                            </a>
+                            <button type="submit" class="btn btn-compact btn-primary">
+                                <span class="material-icons">save</span>Save Category
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

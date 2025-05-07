@@ -88,7 +88,7 @@ try {
                     <i class="fas fa-save me-2"></i>Update Item
                 </button>
                 <a href="dashboard.php?section=manage_item" class="btn btn-secondary">
-                    <i class="fas fa-times me-2"></i>Cancel
+                    <i class="fas fa-xmark me-2"></i>Cancel
                 </a>
             </div>
         </form>

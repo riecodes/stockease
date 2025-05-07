@@ -33,7 +33,7 @@ try {
         </div>
         <div class="row">
             <div class="col-12">
-                <p><strong>Status:</strong><br>' . ucfirst($borrowing['status']) . '</p>';
+                <p><strong>Status:</strong><br><span class="badge bg-' . ($borrowing['status'] == 'returned' ? 'success' : 'warning') . '">' . ucfirst($borrowing['status']) . '</span></p>';
         if ($borrowing['actual_return_date']) {
             echo '<p><strong>Actual Return Date:</strong><br>' . date('M d, Y', strtotime($borrowing['actual_return_date'])) . '</p>';
         }
@@ -41,9 +41,9 @@ try {
             </div>
         </div>';
     } else {
-        echo '<p class="text-danger">Borrowing record not found</p>';
+        echo '<p class="text-danger"><span class="material-icons me-2">error</span>Borrowing record not found</p>';
     }
 } catch (Exception $e) {
     error_log($e->getMessage());
-    echo '<p class="text-danger">Error loading borrowing details</p>';
+    echo '<p class="text-danger"><span class="material-icons me-2">error</span>Error loading borrowing details</p>';
 }
