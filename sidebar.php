@@ -13,12 +13,11 @@
 
     <ul class="list-unstyled components p-3">
         <!-- Home -->
-        <li class="nav-item mb-2 <?= ($currentSection == 'home') ? 'active' : '' ?>">
+        <li class="nav-item mb-1 <?= ($currentSection == 'home') ? 'active' : '' ?>">
             <a href="dashboard.php?section=home" class="nav-link p-3 d-flex align-items-center text-white text-decoration-none rounded">
                 <span class="material-icons me-3 text-white">home</span> <span class="text-white">Home</span>
             </a>
         </li>
-
         <li class="nav-item mb-1 <?= ($currentSection == 'manage_categories') ? 'active' : '' ?>">
             <a href="dashboard.php?section=manage_categories" class="nav-link ps-4 py-2 d-flex align-items-center text-white text-decoration-none rounded">
                 <span class="material-icons me-3 text-white">category</span> <span class="text-white">Manage Categories</span>
@@ -31,14 +30,14 @@
         </li>
 
         <!-- Borrowing Management -->
-        <li class="nav-item mb-2 <?= ($currentSection == 'manage_borrowings') ? 'active' : '' ?>">
+        <li class="nav-item mb-1 <?= ($currentSection == 'manage_borrowings') ? 'active' : '' ?>">
             <a href="dashboard.php?section=manage_borrowings" class="nav-link p-3 d-flex align-items-center text-white text-decoration-none rounded">
                 <span class="material-icons me-3 text-white">history</span> <span class="text-white">Manage Borrowings</span>
             </a>
         </li>
 
         <!-- Profile -->
-        <li class="nav-item mb-2 <?= ($currentSection == 'profile') ? 'active' : '' ?>">
+        <li class="nav-item mb-1 <?= ($currentSection == 'profile') ? 'active' : '' ?>">
             <a href="dashboard.php?section=profile" class="nav-link p-3 d-flex align-items-center text-white text-decoration-none rounded">
                 <span class="material-icons me-3 text-white">person</span> <span class="text-white">Profile</span>
             </a>

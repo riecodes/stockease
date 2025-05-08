@@ -4,7 +4,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     overflow-y: auto;
-    padding: 2rem;
+    
 }
 
 .cvsu-header {
@@ -94,4 +94,11 @@ body {
 
 .required {
     color: #dc3545;
+}
+
+.textarea-counter {
+    text-align: right;
+    color: #666;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
 }

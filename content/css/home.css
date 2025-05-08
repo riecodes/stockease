@@ -1,105 +1,167 @@
 body {
     background-color: #f8f9fa;
-    padding: 15px;
 }
 
-.container-fluid {
-    padding: 0;
+.cvsu-container {
+    padding: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.cvsu-card {
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: none;
-    margin-bottom: 15px;    
+.cvsu-header {
+    margin-bottom: 1.5rem;
 }
 
-.floating-info {
+.cvsu-header h2 {
     display: flex;
-    justify-content: space-between;
-    align-items: center;    
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: #007f00;
+    font-weight: 600;
 }
 
-.floating-info h5 {
-    margin-top: 8px;
+.cvsu-header h2 .material-icons {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.cvsu-header p {
+    color: #666;
+    margin: 0;
+}
+
+/* Card Styles */
+.cvsu-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+    height: 100%;
+}
+
+.cvsu-card .card-body {
+    padding: 1.5rem;
 }
 
 .cvsu-card .card-title {
-    color: #007f00;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    color: #333;
     font-weight: 600;
-    font-size: 1.1rem;
-    
 }
 
-.cvsu-card .card-text {
-    color: #2c3e50;
-    font-size: 1.3rem;
-}
-
-.display-4 {
-    font-size: 2rem;
-    font-weight: 600;
+.cvsu-card .card-title .material-icons {
+    font-size: 1.5rem;
+    margin: 0;
     color: #007f00;
 }
 
+.cvsu-card .display-4 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #007f00;
+    margin: 0;
+}
+
+/* Table Styles */
+.table-responsive {
+    margin: 0;
+    padding: 0;
+    border-radius: 8px;
+}
+
+.table {
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table thead th {
+    background-color: #007f00;
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    border: none;
+    position: relative;
+    white-space: nowrap;
+}
+
+.table thead th:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.table thead th:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.table tbody td {
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+    color: #333;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Alert Styles */
+.alert {
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+/* Content Container */
+.cvsu-content-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Chart Container */
 canvas {
-    max-height: 250px;
-    min-height: 200px;
+    width: 100% !important;
+    height: 300px !important;
 }
 
-/* Mobile Responsiveness */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-    .row {
-        margin-left: -8px;
-        margin-right: -8px;
+    .cvsu-container {
+        padding: 1rem;
     }
-    
-    .col-md-4, .col-md-6 {
-        padding-left: 8px;
-        padding-right: 8px;
-    }
-    
-    .cvsu-card {
-        margin-bottom: 10px;
-        padding: 15px;        
-    }
-    
-    .cvsu-card .card-title {
-        font-size: 1rem;
-    }
-    
-    .cvsu-card .card-text {
-        font-size: 1.2rem;
-    }
-    
-    .display-4 {
-        font-size: 1.75rem;
-    }
-    
-    canvas {
-        max-height: 200px;
-        min-height: 180px;
-    }
-    
-    .card-body {
-        padding: 1rem;        
-    }
-    
-}
 
-@media (max-width: 480px) {
-    .display-4 {
-        font-size: 1.5rem;
+    .cvsu-card .card-body {
+        padding: 1rem;
     }
-    
-    .cvsu-card .card-text {
-        font-size: 1.1rem;
+
+    .table thead th,
+    .table tbody td {
+        padding: 0.5rem;
     }
-    
-    canvas {
-        max-height: 180px;
-        min-height: 150px;
+
+    .cvsu-card .display-4 {
+        font-size: 2rem;
     }
 }

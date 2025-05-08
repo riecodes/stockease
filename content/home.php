@@ -87,13 +87,13 @@ try {
 }
 ?>
 
-<head>
-    <link rel="stylesheet" href="css/home.css">
-</head>
+<link rel="stylesheet" href="content/css/home.css">
+
 <body>
-    <div class="container-fluid">
-        <div class="d-flex justify-content-between align-items-center mb-4 cvsu-header">
-            <h2><i class="fas fa-home me-2"></i>Dashboard</h2>
+    <div class="container cvsu-container">
+        <div class="cvsu-header">
+            <h2><span class="material-icons">dashboard</span>Dashboard</h2>
+            <p>Overview of your inventory system</p>
         </div>
 
         <?php if (isset($_SESSION['error'])): ?>
@@ -104,110 +104,112 @@ try {
             <?php unset($_SESSION['error']); ?>
         <?php endif; ?>
 
-        <!-- Floating Information Rectangles -->
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <div class="card cvsu-card">
-                    <div class="card-body floating-info">
-                        <h5 class="card-title"><i class="fas fa-boxes me-2"></i>Total Items</h5>
-                        <p class="card-text display-4"><?= $totalItems ?></p>
+        <div class="cvsu-content-container">
+            <!-- Stats Cards -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card cvsu-card">
+                        <div class="card-body">
+                            <h5 class="card-title"><span class="material-icons">inventory_2</span>Total Items</h5>
+                            <p class="card-text display-4"><?= $totalItems ?></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card cvsu-card">
+                        <div class="card-body">
+                            <h5 class="card-title"><span class="material-icons">category</span>Total Categories</h5>
+                            <p class="card-text display-4"><?= $totalCategories ?></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card cvsu-card">
+                        <div class="card-body">
+                            <h5 class="card-title"><span class="material-icons">swap_horiz</span>Total Borrowings</h5>
+                            <p class="card-text display-4"><?= $totalBorrowings ?></p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card cvsu-card">
-                    <div class="card-body floating-info">
-                        <h5 class="card-title"><i class="fas fa-tags me-2"></i>Total Categories</h5>
-                        <p class="card-text display-4"><?= $totalCategories ?></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card cvsu-card">
-                    <div class="card-body floating-info">
-                        <h5 class="card-title"><i class="fas fa-handshake me-2"></i>Total Borrowings</h5>
-                        <p class="card-text display-4"><?= $totalBorrowings ?></p>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Graphs Section -->
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <div class="card cvsu-card">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-chart-bar me-2"></i>Items by Category</h5>
-                        <canvas id="itemsByCategoryChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card cvsu-card">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="fas fa-chart-line me-2"></i>Borrowings Over Time</h5>
-                        <canvas id="borrowingsOverTimeChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Item Availability Table -->
-        <div class="card cvsu-card mb-4">
-            <div class="card-body">
-                <h5 class="card-title"><i class="fas fa-box-open me-2"></i>Item Availability</h5>
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Item</th>
-                                <th>Category</th>
-                                <th>Current Stock</th>
-                                <th>Times Borrowed</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($reportData['item_availability'] as $item): ?>
+            <!-- Item Availability Table -->
+            <div class="card cvsu-card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title"><span class="material-icons">inventory</span>Item Availability</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
                                 <tr>
-                                    <td><?= htmlspecialchars($item['item_name']) ?></td>
-                                    <td><?= htmlspecialchars($item['category']) ?></td>
-                                    <td><?= $item['current_stock'] ?></td>
-                                    <td><?= $item['times_borrowed'] ?></td>
+                                    <th>Item</th>
+                                    <th>Category</th>
+                                    <th>Current Stock</th>
+                                    <th>Times Borrowed</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($reportData['item_availability'] as $item): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($item['item_name']) ?></td>
+                                        <td><?= htmlspecialchars($item['category']) ?></td>
+                                        <td><?= $item['current_stock'] ?></td>
+                                        <td><?= $item['times_borrowed'] ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Overdue Items Report -->
-        <div class="card cvsu-card">
-            <div class="card-body">
-                <h5 class="card-title"><i class="fas fa-exclamation-triangle me-2"></i>Overdue Items</h5>
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Item</th>
-                                <th>Borrower</th>
-                                <th>Expected Return</th>
-                                <th>Days Overdue</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($reportData['overdue_items'] as $item): ?>
+            <!-- Overdue Items Report -->
+            <div class="card cvsu-card">
+                <div class="card-body">
+                    <h5 class="card-title"><span class="material-icons">warning</span>Overdue Items</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
                                 <tr>
-                                    <td><?= htmlspecialchars($item['item_name']) ?></td>
-                                    <td><?= htmlspecialchars($item['borrower_name']) ?></td>
-                                    <td><?= date('M d, Y', strtotime($item['expected_return_date'])) ?></td>
-                                    <td class="text-danger"><?= $item['days_overdue'] ?></td>
+                                    <th>Item</th>
+                                    <th>Borrower</th>
+                                    <th>Expected Return</th>
+                                    <th>Days Overdue</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($reportData['overdue_items'] as $item): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($item['item_name']) ?></td>
+                                        <td><?= htmlspecialchars($item['borrower_name']) ?></td>
+                                        <td><?= date('M d, Y', strtotime($item['expected_return_date'])) ?></td>
+                                        <td class="text-danger"><?= $item['days_overdue'] ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+            
+            <!-- Graphs Section -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card cvsu-card">
+                        <div class="card-body">
+                            <h5 class="card-title"><span class="material-icons">bar_chart</span>Items by Category</h5>
+                            <canvas id="itemsByCategoryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card cvsu-card">
+                        <div class="card-body">
+                            <h5 class="card-title"><span class="material-icons">trending_up</span>Borrowings Over Time</h5>
+                            <canvas id="borrowingsOverTimeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>            
         </div>
     </div>
 
