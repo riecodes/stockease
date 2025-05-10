@@ -249,6 +249,17 @@ table tbody tr td{
     gap: 1.5rem;
 }
 
+.cvsu-content-container .row {
+    margin: 0;
+    width: 100%;
+}
+
+.cvsu-content-container .col-12,
+.cvsu-content-container .col-md-4,
+.cvsu-content-container .col-md-6 {
+    padding: 0;
+}
+
 /* Button Styles */
 .btn-compact {
     display: inline-flex;

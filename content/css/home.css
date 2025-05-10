@@ -6,6 +6,7 @@ body {
     padding: 1.5rem;
     max-width: 1200px;
     margin: 0 auto;
+    padding-left: 1.95rem; /* padding-left to make it similar to page with slider */
 }
 
 .cvsu-header {

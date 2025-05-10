@@ -75,7 +75,7 @@ require_once 'process/profile_process.php';
             <!-- Delete Account Section -->
             <div class="card cvsu-card" style="border: 2px solid red;">
                 <div class="card-body">
-                    <h5 class="card-title"><span class="material-icons required">delete</span><span class="required">Delete
+                    <h5 class="card-title required"><span class="material-icons required">delete</span><span class="required">Delete
                             Account</span></h5>
                     <p class="text-danger">Warning: This action cannot be undone. All your data will be permanently deleted.</p>
                     <form action="dashboard.php?section=profile" method="POST"
